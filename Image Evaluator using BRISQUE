@@ -1,0 +1,9 @@
+import cv2
+from skimage import io, img_as_float
+from imquality import brisque
+
+img = cv2.imread("D:\Desktop\sand.jpg")
+img = cv2.cvtColor(img,cv2.COLOR_BGRA2GRAY)
+score = brisque.score(img)
+
+print(score)
