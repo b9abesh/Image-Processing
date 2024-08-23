@@ -1,0 +1,16 @@
+import cv2
+import numpy as np
+from skimage import io, img_as_ubyte
+from skimage.filters import threshold_multiotsu
+
+img = io.imread("D:\Desktop\Sand.jpg" , as_gray=True)
+# img = cv2.medianBlur(img,ksize=3) #for reducing noise in the input image use any suitable filter
+cv2.imshow("Img",img)
+
+threshold = threshold_multiotsu(img, classes=5)
+
+regions = np.digitize(img, bins=threshold)
+# output = img_as_ubyte(regions)
+
+io.imshow(regions)
+io.show()
