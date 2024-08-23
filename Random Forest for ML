@@ -1,0 +1,76 @@
+#Random Forest
+
+import pandas as pd
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+
+df = pd.read_csv("D:\Desktop\SVMtrain.csv")
+# print(df.head())
+# rate = df['Player rate'].value_counts(sort=1) # For getting the Good or Bad count
+# print(rate)
+
+df.drop(['SibSp'], axis=1, inplace=True)
+df.drop(['Parch'], axis=1, inplace=True)
+df.drop(['Fare'], axis=1, inplace=True)
+df.drop(['Sex'], axis=1, inplace=True)
+df.drop(['Embarked'], axis=1, inplace=True)# For removing columns
+
+
+# df.Player_rate[df.Player_rate == 'Good'] = 1
+# df.Player_rate[df.Player_rate == 'Bad'] = 2
+# print(df.head())
+
+#Dependent variable
+# Y = df['Player_rate'].values
+# Y = Y.astype('int')
+
+#Independent variable
+X = df.drop(['Survived'], axis=1)
+Y = df['Survived']
+
+
+#For training and testing
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size=0.4,random_state=20)
+
+from sklearn.ensemble import RandomForestClassifier
+
+model = RandomForestClassifier(n_estimators=100,random_state=30)
+
+model.fit(X_train,Y_train)
+
+prediction_test = model.predict(X_test)
+
+L = input("Write Passenger ID: ")
+M = input("Write Passenger Class: ")
+N = input("Write age: ")
+# predicting which type of flower it is.
+pre = model.predict([[L, M, N]])
+
+
+from sklearn import metrics
+print("Accuracy= ", metrics.accuracy_score(Y_test,prediction_test))
+
+if pre == 1:
+    print("You are Alive")
+else:
+    print("You are Dead")
+
+# print("You are ",pre)
+# feature_list = list(X.columns)
+# feature_imp = pd.Series(model.feature_importances_,index=feature_list).sort_values(ascending=False)
+#
+# import pickle
+#
+# filename = "Sand"
+# pickle.dump(model,open(filename,'wb'))
+#
+# load_model = pickle.load(open(filename,'rb'))
+# result = load_model.predict(X)
+#
+# segmented = result.reshape((img.shape))
+#
+# from matplotlib import pyplot as plt
+# plt.imshow(segmented, cmap='jet')
+# plt.imsave('Segmented_rock.jpg', segmented, cmap= 'jet')
