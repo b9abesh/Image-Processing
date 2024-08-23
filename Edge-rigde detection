@@ -1,0 +1,23 @@
+from skimage import io, filters, feature
+import matplotlib.pyplot as plt
+from skimage.color import rgb2gray
+import cv2
+
+from skimage.filters import meijering, sato, frangi, hessian
+
+img = io.imread("D:\Desktop\sand.jpg")
+img = rgb2gray(img)
+
+meijering_img = meijering(img)
+sato_img = sato(img)
+frangi_img = frangi(img)
+hessian_img = hessian(img)
+
+io.imshow(meijering_img)
+io.show()
+io.imshow(sato_img)
+io.show()
+io.imshow(frangi_img)
+io.show()
+io.imshow(hessian_img)
+io.show()
