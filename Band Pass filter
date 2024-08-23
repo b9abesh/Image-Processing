@@ -1,0 +1,38 @@
+#Band pass filters
+
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+import pandas as pd
+
+img = cv2.imread("D:\Desktop\sand.jpg")
+img = cv2.cvtColor(img, cv2.COLOR_BGRA2GRAY)
+df = pd.DataFrame()
+img2 = img.reshape(-1)
+df['Original Pixel'] = img2
+
+num = 1
+for theta in range(2):
+    theta = theta/4. *np.pi
+    for sigma in (3,5):
+        for lamda in np.arange(0,np.pi, np.pi/4.):
+            for gamma in (0.05,0.5):
+                gabor_label = 'Gabor' + str(num)
+                kernel = cv2.getGaborKernel((50, 50), sigma, theta, lamda, gamma, 0, ktype=cv2.CV_32F)
+                fimg = cv2.filter2D(img, cv2.CV_8UC3, kernel)
+                filtered_img = fimg.reshape(-1)
+                df[gabor_label] = filtered_img
+                num += 1
+                print(gabor_label)
+df.to_csv('Gabor.csv')
+
+
+kernel = cv2.getGaborKernel((50,50),sigma, theta, lamda, gamma,0,ktype=cv2.CV_32F)
+kernel = cv2.resize(kernel,(400,400))
+
+
+cv2.imshow("Original Img",img)
+cv2.imshow("Filtered image", fimg)
+cv2.imshow('Kernel',kernel)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
