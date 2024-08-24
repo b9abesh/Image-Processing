@@ -1,0 +1,23 @@
+import cv2
+import pandas as pd
+from skimage import io, measure, img_as_ubyte
+import matplotlib.pyplot as plt
+from skimage.color import rgb2gray, label2rgb
+import numpy as np
+
+img = img_as_ubyte(rgb2gray(io.imread("D:\Desktop\Cells.jpg")))
+
+from skimage.filters import threshold_otsu
+threshold = threshold_otsu(img)
+
+label_image = measure.label(img<threshold, connectivity=img.ndim)
+plt.imshow(label_image)
+# plt.show()
+img_label_overlay = label2rgb(label_image, image = img)
+plt.imshow(img_label_overlay)
+plt.show()
+props = measure.regionprops_table(label_image,img,
+                                  properties=['label','area','equivalent_diameter','mean_intensity','solidity'])
+
+df = pd.DataFrame(props)
+print(df)
