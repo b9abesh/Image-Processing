@@ -1,0 +1,7 @@
+import leafmap
+#(It only happens in Jupyter Nb so try to do it in Google Colab)
+
+img1 = "/content/Tig.png"
+img2 = "/content/Filterd Tig.jpg"
+
+leafmap.image_comparison(img1,img2,"Original Image","Filtered Image",starting_position=50,out_html='Image_comparison.html')
